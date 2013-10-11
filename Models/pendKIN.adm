@@ -57,6 +57,13 @@
       "body1": 1,
       "sP1": [-2, 0],
       "fun": "0"
+    },
+    {
+      "name": "driver",
+      "id": 3,
+      "type": "AbsoluteAngle",
+      "body1": 1,
+      "fun": "sin(t)"
     }
   ]
 }

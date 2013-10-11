@@ -1,42 +1,62 @@
-%% Pendulum %%
-%%%%%%%%%%%%%%
-
-Model: Pendulum
-GravityX: 0
-GravityY: -9.81
-
-%%%%%%%%%%%%%%%%%%
-Body: 1 % ID of this body
-Mass: 2.0 % mass of body
-Jbar: 0.3 % mass moment of inertia
-xZero:        0
-yZero:        -2
-phiZero:      4.712388980384690
-xDotZero:     12.566370614359172
-yDotZero:     0
-phiDotZero:   6.283185307179586
-%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%
-Constraint: 1 % id of this constraint
-Type: AbsoluteX % type of this constraint
-BodyI: 1 % id of participating body
-xPprime: -2 % x of point P on moving body, expressed in LRF
-yPprime: 0 % y of point P on moving body, expressed in LRF
-CmotionFunction: 0 % provides expression for C(t)
-%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%
-Constraint: 2 % id of this constraint
-Type: AbsoluteY % type of this constraint
-BodyI: 1 % id of participating body
-xPprime: -2 % x of point P on moving body, expressed in LRF
-yPprime: 0 % y of point P on moving body, expressed in LRF
-CmotionFunction: 0 % provides expression for C(t)
-%%%%%%%%%%%%%%%%%%
+{
+  "name": "Pendulum2",
+  "gravity": [0, -9.81],
+  "vis": 
+  {
+    "xlim": [-6, 6],
+    "ylim": [-5, 5]
+  },
 
 
-Constraint: 3
-Type: AbsoluteAngle
-BodyI: 1
-CmotionFunction: 1.5*pi+2*pi*t
+  "bodies":
+  [
+    {
+      "name": "pend",
+      "id": 1,
+      "mass": 2.0,
+      "jbar": 0.3,
+      "q0": [2, 0, 0],
+      "qd0": [0, 0, 0],
+      "vis":
+      {
+        "RGB": [0.5, 0.5, 1.0],
+        "shapes":
+        [
+          {
+            "loc": [0, 0],
+            "size": [4.4, 0.4]
+          },
+          {
+            "loc": [1.5, 0.5],
+            "size": [0.4, 1]
+          }
+        ],
+        "points":
+        [
+          [-2, 0],
+          [1.5, 0.25]
+        ]
+      }
+    }
+  ],
+
+  "constraints":
+  [
+    {
+      "name": "absX_pend",
+      "id": 1,
+      "type": "AbsoluteX",
+      "body1": 1,
+      "sP1": [-2, 0],
+      "fun": "0"
+    },
+    {
+      "name": "absY_pend",
+      "id": 2,
+      "type": "AbsoluteY",
+      "body1": 1,
+      "sP1": [-2, 0],
+      "fun": "0"
+    }
+  ]
+}
