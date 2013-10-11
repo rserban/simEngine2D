@@ -1,0 +1,49 @@
+{
+  "name": "Pendulum2",
+  "gravity": [0, 0],
+
+  "bodies":
+  [
+    {
+      "name": "pend",
+      "id": 1,
+      "mass": 2.0,
+      "jbar": 0.3,
+      "q0": [2, 0, 0],
+      "qd0": [0, 0, 0]
+    }
+  ],
+
+  "constraints":
+  [
+    {
+      "name": "absX_pend",
+      "id": 1,
+      "type": "AbsoluteX",
+      "body1": 1,
+      "sP1": [-2, 0],
+      "fun": "0"
+    },
+    {
+      "name": "absY_pend",
+      "id": 2,
+      "type": "AbsoluteY",
+      "body1": 1,
+      "sP1": [-2, 0],
+      "fun": "0"
+    }
+  ],
+
+  "forces":
+  [
+    {
+      "name": "fake_gravity",
+      "id": 1,
+      "type": "PointForce",
+      "body1": 1,
+      "sP1": [0, 0],
+      "frame": "GRF",
+      "fun": ["0", "-9.81 * 2"]
+    }
+  ]
+}

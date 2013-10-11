@@ -1,0 +1,42 @@
+%% Pendulum %%
+%%%%%%%%%%%%%%
+
+Model: Pendulum
+GravityX: 0
+GravityY: -9.81
+
+%%%%%%%%%%%%%%%%%%
+Body: 1 % ID of this body
+Mass: 2.0 % mass of body
+Jbar: 0.3 % mass moment of inertia
+xZero:        0
+yZero:        -2
+phiZero:      4.712388980384690
+xDotZero:     12.566370614359172
+yDotZero:     0
+phiDotZero:   6.283185307179586
+%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%
+Constraint: 1 % id of this constraint
+Type: AbsoluteX % type of this constraint
+BodyI: 1 % id of participating body
+xPprime: -2 % x of point P on moving body, expressed in LRF
+yPprime: 0 % y of point P on moving body, expressed in LRF
+CmotionFunction: 0 % provides expression for C(t)
+%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%
+Constraint: 2 % id of this constraint
+Type: AbsoluteY % type of this constraint
+BodyI: 1 % id of participating body
+xPprime: -2 % x of point P on moving body, expressed in LRF
+yPprime: 0 % y of point P on moving body, expressed in LRF
+CmotionFunction: 0 % provides expression for C(t)
+%%%%%%%%%%%%%%%%%%
+
+
+Constraint: 3
+Type: AbsoluteAngle
+BodyI: 1
+CmotionFunction: 1.5*pi+2*pi*t

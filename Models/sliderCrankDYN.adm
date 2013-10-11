@@ -1,0 +1,89 @@
+{
+    "name": "SliderCrank",
+    "gravity": [0, -9.81],
+    
+    "bodies": 
+    [
+        {
+            "name": "slider",
+            "id": 1,
+            "mass": 2,
+            "jbar": 0.3,
+            "q0": [2, 0, 0],
+            "qd0": [0, 0, 0],
+            "ffo": "bar"
+        },
+        {
+            "name": "rod",
+            "id": 2,
+            "mass": 3,
+            "jbar": 0.2,
+            "q0": [7, 0, 0],
+            "qd0": [0, 0, 0]
+        },
+        {
+            "name": "slider",
+            "id": 3,
+            "mass": 5,
+            "jbar": 0.5,
+            "q0": [10, 0, 0],
+            "qd0": [0, 0, 0]
+        }
+    ],
+
+    "constraints":
+    [
+        {
+            "name": "absX_crank",
+            "id": 1,
+            "type": "AbsoluteX",
+            "body1": 1,
+            "sP1": [-2, 0],
+            "fun": "0"
+        },
+        {
+            "name": "absY_crank",
+            "id": 2,
+            "type": "AbsoluteY",
+            "body1": 1,
+            "sP1": [-2, 0],
+            "fun": "0"
+        },
+        {
+            "name": "rev_crank_rod",
+            "id": 3,
+            "type": "RevoluteJoint",
+            "body1": 1,
+            "sP1": [2, 0],
+            "body2": 2,
+            "sP2": [-3, 0],
+            "fun": "NONE"
+        },
+        {
+            "name": "rev_rod_slider",
+            "id": 4,
+            "type": "RevoluteJoint",
+            "body1": 2,
+            "sP1": [3, 0],
+            "body2": 3,
+            "sP2": [0, 0],
+            "fun": "NONE"
+        },
+        {
+            "name": "absY_slider",
+            "id": 5,
+            "type": "AbsoluteY",
+            "body1": 3,
+            "sP1": [0, 0],
+            "fun": "0"
+        },
+        {
+            "name": "absAngle_slider",
+            "id": 6,
+            "type": "AbsoluteAngle",
+            "body1": 3,
+            "fun": "0"
+        }
+    ]
+
+}
