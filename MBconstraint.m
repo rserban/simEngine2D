@@ -74,6 +74,12 @@ classdef MBconstraint < matlab.mixin.Heterogeneous
             else
                 fprintf('   bodyI: %i  bodyJ: %i\n', obj.bodyI, obj.bodyJ);
             end
+            % Print the 'fun' member of this constraint
+            if isempty(obj.fun)
+                fprintf('   function: NONE\n');
+            else
+                fprintf('   function: %s\n', func2str(obj.fun));
+            end
         end
     end
     
