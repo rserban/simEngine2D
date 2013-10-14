@@ -48,8 +48,21 @@ classdef MBrevJoint < MBconstraint
                 Gamma = Ai * obj.sI * phidi^2 - Aj * obj.sJ * phidj^2;
             end
         end
-    end
     
+        
+        function [] = evalAndPrint(obj, t, qi, qj, qdi, qdj)
+            [Phi, Phi_q, Nu, Gamma] = obj.eval(t, qi, qj, qdi, qdj, [1,1,1,1]);
+            fprintf('Phi    = [ %10.4f ]\n         [ %10.4f ]\n', Phi(1), Phi(2));
+            fprintf('Phi_qi = [ %10.4f  %10.4f  %10.4f ]\n         [ %10.4f  %10.4f  %10.4f ]\n',...
+                Phi_q(1:2,1:3)');
+            fprintf('Phi_qj = [ %10.4f  %10.4f  %10.4f ]\n         [ %10.4f  %10.4f  %10.4f ]\n',...
+                Phi_q(1:2,4:6)');
+            fprintf('Nu     = [ %10.4f ]\n         [ %10.4f ]\n', Nu(1), Nu(2));
+            fprintf('Gamma  = [ %10.4f ]\n         [ %10.4f ]\n', Gamma(1), Gamma(2));            
+        end
+
+    end
+        
     methods(Static)
         function type = getType()
             type = 'RevoluteJoint';

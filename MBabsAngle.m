@@ -35,6 +35,14 @@ classdef MBabsAngle < MBconstraint
             end
         end
         
+        function [] = evalAndPrint(obj, t, qi, qdi)
+            [Phi, Phi_q, Nu, Gamma] = obj.eval(t, qi, qdi, [1,1,1,1]);
+            fprintf('Phi    = [ %10.4f ]\n', Phi);
+            fprintf('Phi_qi = [ %10.4f  %10.4f  %10.4f ]\n', Phi_q);
+            fprintf('Nu     = [ %10.4f ]\n', Nu);
+            fprintf('Gamma  = [ %10.4f ]\n', Gamma);  
+        end
+        
     end
     
     methods(Static)
