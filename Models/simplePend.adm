@@ -1,0 +1,43 @@
+{
+  "name": "Simple Pendulum",
+  "gravity": [0, -9.81],
+
+  "bodies":
+  [
+    {
+      "name": "pend",
+      "id": 1,
+      "mass": 2.5,
+      "jbar": 1.0,
+      "q0": [1, 0, 1.570796326794897],
+      "qd0": [6.283185307179586, 0, 6.283185307179586]
+    }
+  ],
+
+  "constraints":
+  [
+    {
+      "name": "absX_pend",
+      "id": 1,
+      "type": "AbsoluteX",
+      "body1": 1,
+      "sP1": [1, 0],
+      "fun": "1"
+    },
+    {
+      "name": "absY_pend",
+      "id": 2,
+      "type": "AbsoluteY",
+      "body1": 1,
+      "sP1": [1, 0],
+      "fun": "1"
+    },
+    {
+      "name": "driver",
+      "id": 3,
+      "type": "AbsoluteAngle",
+      "body1": 1,
+      "fun": "pi/2 + 2*pi*t"
+    }
+  ]
+}
