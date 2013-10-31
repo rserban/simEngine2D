@@ -4,7 +4,7 @@ function data = dynamics(sys, tstart, tend, dt, nOut, tol, maxIt)
 
 % Use default tolerance and maximum number of iterations if not specified.
 if nargin < 6 || isempty(tol)
-    tol = 1e-6;
+    tol = 1e-8;
 end
 if tol < eps
     warning('Specified tolerance too small. Reset at %g', eps);
