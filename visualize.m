@@ -1,7 +1,22 @@
 function [] = visualize(modelfile, datafile)
+%VISUALIZE - Animate a 2D mechanism
+%
+%    VISUALIZE(modelfile, datafile) animates a 2D mechanism, described in
+%    the specified ADM file and using data provided in the specified DATA
+%    file.
+%         modelfile is the name of an ADM file (in JSON format) which is
+%                    augmented with visualization information for each
+%                    body in the system.
+%          datafile  is the name of a ASCII delimited file which contains
+%                    one line for each simulation time.  Each line should
+%                    contain the value of time, followed by the generalized
+%                    coordinates at that time.
+%
+%     VISUALIZE provides support for turning on/off display of the LRFs and 
+%     turning on/off tracking of point trajectories.
+
 
 % Read model and data
-%---------------------
 
 model = loadjson(modelfile);
 data = dlmread(datafile);
