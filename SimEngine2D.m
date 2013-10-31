@@ -14,4 +14,13 @@ elseif strcmpi(an.simulation, 'dynamics')
 end
 
 %% Postprocessing of simulation data...
+vis = input('Animate? Y/N [Y]:', 's');
+if isempty(vis)
+    vis = 'Y';
+end
+
+if strcmp(vis, 'Y')
+    dlmwrite('foo.out', [data.t ; data.q]');
+    visualize(model_file, 'foo.out');
+end
 % TODO
