@@ -90,6 +90,10 @@ classdef MBsys < handle
                     obj.forces(iF) = MBpointForce(flist{iF});
                 elseif strcmp(flist{iF}.type, 'Torque')
                     obj.forces(iF) = MBtorque(flist{iF});
+                elseif strcmp(flist{iF}.type, 'RSDA1')
+                    obj.forces(iF) = MBrsda1(flist{iF});
+                elseif strcmp(flist{iF}.type, 'RSDA2')
+                    obj.forces(iF) = MBrsda2(flist{iF});
                 end
             end
         end

@@ -1,0 +1,71 @@
+{
+  "name": "PendulumEQL",
+  "gravity": [0, -9.81],
+  "vis": 
+  {
+    "xlim": [-6, 6],
+    "ylim": [-5, 5]
+  },
+
+
+  "bodies":
+  [
+    {
+      "name": "pend",
+      "id": 1,
+      "mass": 10.0,
+      "jbar": 10.0,
+      "q0": [-0.707106781186548, 0.707106781186548, 2.356194490192345],
+      "qd0": [0, 0, 0],
+      "vis":
+      {
+        "RGB": [0.5, 0.5, 1.0],
+        "shapes":
+        [
+          {
+            "loc": [0, 0],
+            "size": [2.4, 0.4]
+          }
+        ],
+        "points":
+        [
+          [1, 0]
+        ]
+      }
+    }
+  ],
+
+  "constraints":
+  [
+    {
+      "name": "absX_pend",
+      "id": 1,
+      "type": "AbsoluteX",
+      "body1": 1,
+      "sP1": [-1, 0],
+      "fun": "0"
+    },
+    {
+      "name": "absY_pend",
+      "id": 2,
+      "type": "AbsoluteY",
+      "body1": 1,
+      "sP1": [-1, 0],
+      "fun": "0"
+    }
+  ],
+
+  "forces":
+  [
+  	{
+	  "name": "RSDA",
+	  "id": 1,
+	  "type": "RSDA1",
+	  "body1": 1,
+	  "theta0": 1.0,
+	  "k": 25,
+	  "c": 50,
+	  "fun": "0"
+  	}
+  ]
+}
