@@ -290,11 +290,11 @@ classdef MBsys < handle
             c = cos(q(3,:));
             s = sin(q(3,:));
             r = [q(1,:) + P(1)*c - P(2)*s;
-                q(2,:) - P(1)*s + P(2)*c];
+                q(2,:) + P(1)*s + P(2)*c];
             rd = [qd(1,:) - P(1)*s.*qd(3,:) - P(2)*c.*qd(3,:);
-                qd(2,:) - P(1)*c.*qd(3,:) - P(2)*s.*qd(3,:)];
+                qd(2,:) + P(1)*c.*qd(3,:) - P(2)*s.*qd(3,:)];
             rdd = [qdd(1,:) - P(1)*s.*qdd(3,:) - P(1)*c.*qd(3,:).^2 - P(2)*c.*qdd(3,:) + P(2)*s.*qd(3,:).^2;
-                qdd(2,:) - P(1)*c.*qdd(3,:) + P(1)*s.*qd(3,:).^2 - P(2)*s.*qdd(3,:) - P(2)*c.*qd(3,:).^2];
+                qdd(2,:) + P(1)*c.*qdd(3,:) - P(1)*s.*qd(3,:).^2 - P(2)*s.*qdd(3,:) - P(2)*c.*qd(3,:).^2];
             
             % Plot time evolution of position, velocity, acceleration.
             figName = sprintf('[%s]  Point (%g,%g) on Body #%i', obj.name, P(1), P(2), bodyId);
