@@ -1,0 +1,106 @@
+{
+  "name": "Pendulum2",
+  "gravity": [0, -9.81],
+  "vis": 
+  {
+    "xlim": [-8.5, 8.5],
+    "ylim": [-8.5, 3.5]
+  },
+
+
+  "bodies":
+  [
+    {
+      "name": "pend1",
+      "id": 1,
+      "mass": 2.0,
+      "jbar": 0.3,
+      "q0": [1, 0, 0],
+      "qd0": [0, 0, 0],
+      "vis":
+      {
+        "RGB": [0.5, 0.5, 1.0],
+        "shapes":
+        [
+          {
+            "loc": [0, 0],
+            "size": [2.4, 0.4]
+          }
+        ],
+        "points":
+        [
+          [-1, 0],
+          [1, 0]
+        ]
+      }
+    },
+    {
+      "name": "pend2",
+      "id": 2,
+      "mass": 2.0,
+      "jbar": 0.3,
+      "q0": [5, 0, 0],
+      "qd0": [0, 0, 0],
+      "vis":
+      {
+        "RGB": [1.0, 0.5, 0.5],
+        "shapes":
+        [
+          {
+            "loc": [0, 0],
+            "size": [6.4, 0.4]
+          }
+        ],
+        "points":
+        [
+          [3, 0]
+        ]
+      }
+    }    
+  ],
+
+  "constraints":
+  [
+    {
+      "name": "absX_V",
+      "id": 1,
+      "type": "AbsoluteX",
+      "body1": 1,
+      "sP1": [-1, 0],
+      "fun": "0.2"
+    },
+    {
+      "name": "absY_V",
+      "id": 2,
+      "type": "AbsoluteY",
+      "body1": 1,
+      "sP1": [-1, 0],
+      "fun": "0.5"
+    },
+    {
+      "name": "rev",
+      "id": 3,
+      "type": "RevoluteJoint",
+      "body1": 1,
+      "sP1": [1, 0],
+      "body2": 2,
+      "sP2": [-3, 0],
+      "fun": "NONE"
+    },
+    {
+      "name": "abs_Y_Q",
+      "id": 4,
+      "type": "AbsoluteY",
+      "body1": 2,
+      "sP1": [3, 0],
+      "fun": "0"
+    },
+    {
+      "name": "absAngle_1",
+      "id": 5,
+      "type": "AbsoluteAngle",
+      "body1": 1,
+      "fun": "sin(10*t)"
+    }    
+  ]
+}
