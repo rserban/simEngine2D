@@ -1,0 +1,66 @@
+{
+  "name": "Pendulum2",
+  "gravity": [0, -9.81],
+  "vis": 
+  {
+    "xlim": [-6, 6],
+    "ylim": [-5, 5]
+  },
+
+
+  "bodies":
+  [
+    {
+      "name": "pend",
+      "id": 1,
+      "mass": 2.0,
+      "jbar": 3.0,
+      "q0": [1, 1.7320508075, 0.523598775598],
+      "qd0": [1.7320508075, -1, 1],
+      "vis":
+      {
+        "RGB": [0.5, 0.5, 1.0],
+        "shapes":
+        [
+          {
+            "loc": [0, 0],
+            "size": [0.4, 4.4]
+          }
+        ],
+        "points":
+        [
+          [0,  0],
+          [0, -2],
+          [0,  2]
+        ]
+      }
+    }
+  ],
+
+  "constraints":
+  [
+    {
+      "name": "absX_pend",
+      "id": 1,
+      "type": "AbsoluteX",
+      "body1": 1,
+      "sP1": [0, 2],
+      "fun": "0"
+    },
+    {
+      "name": "absY_pend",
+      "id": 2,
+      "type": "AbsoluteY",
+      "body1": 1,
+      "sP1": [0, -2],
+      "fun": "0"
+    },
+    {
+      "name": "driver",
+      "id": 3,
+      "type": "AbsoluteAngle",
+      "body1": 1,
+      "fun": "t + pi/6"
+    }
+  ]
+}
