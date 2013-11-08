@@ -64,8 +64,13 @@ data.lam(:,nextOut) = lam;
 nextOut = nextOut + 1;
 
 %% Loop until we reach the final time.
+hw = waitbar(0,'Initializing waitbar...');
+
 while true
     % Increment time, adjusting to hit exactly the output times.
+    t_str = sprintf('t = %.4f', t);
+    waitbar(t/tend,hw,t_str)
+    
     t_next = t + dt;
     if abs(t_next - tout(nextOut)) < dt/10
         h = tout(nextOut) - t;
@@ -132,6 +137,7 @@ while true
     
 end
 
+close(hw);
 
 end
 
