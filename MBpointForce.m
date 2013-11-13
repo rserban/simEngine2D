@@ -35,6 +35,8 @@ classdef MBpointForce < MBforce
                 frame = 'GRF (global)';
             end
             fprintf('   reference frame: %s\n', frame);
+            fprintf('   force functions: %s\n', func2str(obj.funX));
+            fprintf('                    %s\n', func2str(obj.funY));
         end
         
         function Q = eval(obj, t, qi, qdi)

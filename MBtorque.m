@@ -16,7 +16,7 @@ classdef MBtorque < MBforce
         
         function print(obj)
             print@MBforce(obj);
-            fprintf('   torque function:  \n');
+            fprintf('   torque function: %s\n', func2str(obj.fun));
         end
         
         function Q = eval(obj, t, qi, qdi)
