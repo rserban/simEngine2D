@@ -1,0 +1,112 @@
+{
+  "name": "Double Pend 6.5.2",
+  "gravity": [0, -9.81],
+  "vis": 
+  {
+    "xlim": [-8.5, 8.5],
+    "ylim": [-8.5, 3.5]
+  },
+
+
+  "bodies":
+  [
+    {
+      "name": "pend1",
+      "id": 1,
+      "mass": 2.0,
+      "jbar": 0.666667,
+      "q0": [1, 0, 0],
+      "qd0": [0, 0, 0],
+      "vis":
+      {
+        "RGB": [0.5, 0.5, 1.0],
+        "shapes":
+        [
+          {
+            "loc": [0, 0],
+            "size": [2.4, 0.4]
+          }
+        ],
+        "points":
+        [
+          [-1, 0],
+          [1, 0]
+        ]
+      }
+    },
+    {
+      "name": "pend2",
+      "id": 2,
+      "mass": 2.0,
+      "jbar": 0.666667,
+      "q0": [3, 0, 0],
+      "qd0": [0, 0, 0],
+      "vis":
+      {
+        "RGB": [1.0, 0.5, 0.5],
+        "shapes":
+        [
+          {
+            "loc": [0, 0],
+            "size": [2.4, 0.4]
+          }
+        ],
+        "points":
+        [
+          [3, 0]
+        ]
+      }
+    }    
+  ],
+
+  "constraints":
+  [
+    {
+      "name": "absX_p1",
+      "id": 1,
+      "type": "AbsoluteX",
+      "body1": 1,
+      "sP1": [-1, 0],
+      "fun": "0.0"
+    },
+    {
+      "name": "absY_p1",
+      "id": 2,
+      "type": "AbsoluteY",
+      "body1": 1,
+      "sP1": [-1, 0],
+      "fun": "0.0"
+    },
+    {
+      "name": "rev",
+      "id": 3,
+      "type": "RevoluteJoint",
+      "body1": 1,
+      "sP1": [1, 0],
+      "body2": 2,
+      "sP2": [-1, 0],
+      "fun": "NONE"
+    } 
+  ],
+
+  "forces":
+  [
+    {
+      "name": "force",
+      "id": 1,
+      "type": "PointForce",
+      "body1": 2,
+      "sP1": [1, 0],
+      "frame": "GRF",
+      "funX": "5.0",
+      "funY": "0.0"
+    },
+    {
+      "name": "torque",
+      "id": 2,
+      "type": "Torque",
+      "body1": 1,
+      "fun": "2.5"
+    }
+  ]
+}
