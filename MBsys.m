@@ -13,7 +13,7 @@ classdef MBsys < handle
         constraints       % list of constraint elements (joints)
         forces            % list of force elements
         
-        g = [0; -9.81];   % gravitatinal acceleration
+        g = [0; -9.81];   % gravitational acceleration
     end
     
     methods
@@ -222,6 +222,7 @@ classdef MBsys < handle
         end
         
         function print(obj)
+            % Print information about the model
             fprintf('\nModel name: %s\n', obj.name);
             fprintf('Gravity: (%g  %g)\n', obj.g);
             
