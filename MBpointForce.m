@@ -14,8 +14,8 @@ classdef MBpointForce < MBforce
             obj = obj@MBforce(data.id, data.body1, []);
             obj.sI = reshape(data.sP1, 2, 1);
             syms t;
-            funXstr = data.fun{1};
-            funYstr = data.fun{2};
+            funXstr = data.funX;
+            funYstr = data.funY;
             obj.funX = matlabFunction(eval(funXstr), 'vars', t);
             obj.funY = matlabFunction(eval(funYstr), 'vars', t);
             if strcmp(data.frame, 'GRF')
