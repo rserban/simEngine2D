@@ -1,6 +1,31 @@
 function data = dynamics(sys, tstart, tend, dt, nOut, tol, maxIt)
-%DYNAMICS - ...
-%     data = dynamics(sys, tstart, tend, dt, nOut)
+%DYNAMICS - perform dynamic analysis for the specified mechanism
+%     data = DYNAMICS(SYS, TSTART, TEND, DT, NOUT) performs dynamic
+%     analysis for the mechanism represented by SYS over the time interval
+%     [TSTART, TEND], using a step-size DT and storing results at NOUT
+%     equally-spaced time points.
+%     data = DYNAMICS(SYS, TSTART, TEND, DT, NOUT, TOL, MAXIT) also
+%     specifies the tolerance and maximum number of iterations for the
+%     Newton method used to solve the nonlinear problem during implicit
+%     integration with the Newmark method. Default values are TOL = 1e-8
+%     and MAXIT = 100.
+%
+%     SYS is an object of type MBsys, constructed from an ADM file. See
+%     MBsys for details.
+%
+%     The simulation results are returned in the structure DATA which has
+%     the following fields:
+%        t   - output time points: a (1 x NT) row vector
+%        q   - body generalized coordinates: a (3*NB x NT) matrix
+%        qd  - body generalized velocities: a (3*NB x NT) matrix
+%        qdd - body generalized accelerations: a (3*NB x NT) matrix
+%        lam - Lagrange multipliers: a (M x NT) matrix
+%     where NB is the number of bodies in the system and M is the number of
+%     constraint equations.
+%     The DATA structure can be passed to the varioius reporting methods of
+%     the SYS object to display results.
+%
+%     See also MBSYS, KINEMATICS
 
 % Use default tolerance and maximum number of iterations if not specified.
 if nargin < 6 || isempty(tol)
@@ -28,7 +53,7 @@ data.lam = zeros(sys.m,nOut+1);
 t = tstart;
 
 % Extract initial conditions. Check position and velocity constraints.
-[q,qd] = sys.setIC;
+[q,qd] = sys.getIC;
 Phi = sys.evalPhi(t, q);
 Phi_q = sys.evalPhi_q(t, q);
 Nu = sys.evalNu(t, q);

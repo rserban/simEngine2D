@@ -1,6 +1,32 @@
 classdef MBsys < handle
-    %MBSYS This class encapsulates a multibody system.
-    %   Detailed explanation goes here
+    %MBSYS This class encapsulates a planar multibody system.
+    %   An MBSYS is constructed from a specified ADM file (in JSON format).
+    %
+    %   MBsys methods:
+    %
+    %   Analysis methods: these functions are requests to an MBSYS to
+    %   evaluate various system-level quntities at a specified
+    %   ocnfiguration of the mechanism
+    %     getIC        - return the (consistent) initial conditions
+    %     getM         - return the (constant) generalized mass matrix
+    %     evalPhi      - evaluate system-level constraints
+    %     evalPhi_q    - evaluate system-level constraint Jacobian
+    %     evalNu       - evaluate system-level RHS of velocity equation
+    %     evalGamma    - evaluate system-level RHS of acceleration equation
+    %     evalQ        - evaluate system-level generalized forces
+    %
+    %   Reporting methods: these functions are requests to an MBSYS to
+    %   interpret simulation results and plot various results
+    %     print        - print system information
+    %     plotBody     - plot position, velocity, acceleration of a body
+    %     plotPoint    - plot position, velocity, acceleration of a point
+    %     plotReaction - plot reaction force/torque
+    %     plotEnergy   - plot system energy
+    %
+    %   See also KINEMATICS, DYNAMICS
+    %
+    %   Reference page in help browser
+    %     doc MBsys
     
     properties
         name = 'model';   % name of this model
@@ -12,13 +38,16 @@ classdef MBsys < handle
         bodies            % list of bodies
         constraints       % list of constraint elements (joints)
         forces            % list of force elements
-        
         g = [0; -9.81];   % gravitational acceleration
     end
     
     methods
+        %% Constructor
         function obj = MBsys(filename)
-            % Construct an MBsys from the specification in a JSON file.
+            % Construct an MBsys from the specification in an ADM file.
+            %
+            % sys = MBsys(FILENAME) where FILENAME is an ADM file in JSON
+            % format.
             model = loadjson(filename);
             
             if isfield(model, 'name')
@@ -98,7 +127,12 @@ classdef MBsys < handle
             end
         end
         
-        function [q0, qd0] = setIC(obj)
+        %% getIC
+        function [q0, qd0] = getIC(obj)
+            %GETIC - get the (consistent) initial conditions.
+            %  [Q0, QD0] = sys.GETIC returns the consistent position ICs and
+            %  velcity ICs, in Q0 and QD0, respectively.
+            
             q0 = zeros(obj.n, 1);
             qd0 = zeros(obj.n, 1);
             
@@ -109,7 +143,12 @@ classdef MBsys < handle
             end
         end
         
+        %% getM
         function M = getM(obj)
+            %GETM - get the (constant) generalized mass matrix.
+            %  M = sys.GETM returns the constant generalized mass matrix M
+            %  for this system.
+            
             M = zeros(obj.n, obj.n);
             
             for iB = 1:obj.nB
@@ -120,7 +159,13 @@ classdef MBsys < handle
             end
         end
         
+        %% evalQ
         function Q = evalQ(obj, t, q, qd)
+            %EVALQ - evaluate generalized forces.
+            %  Q = sys.EVALQ(T, Q, QD) evaluates the vector of generalized
+            %  forces at time T, generlaized coordinates Q, and generalized
+            %  velocities QD.
+            
             Q = zeros(obj.n,1);
             
             % Apply gravity to all bodies in the system.
@@ -147,7 +192,12 @@ classdef MBsys < handle
             end
         end
         
+        %% evalPhi
         function Phi = evalPhi(obj, t, q)
+            %EVALPHI - evaluate the system constraint equations.
+            %  PHI = sys.EVALPHI(T, Q) returns the vector of constraint
+            %  violations at ttime T and generalized coordinates Q.
+            
             Phi = zeros(obj.m, 1);
             
             for iC = 1:obj.nC
@@ -165,7 +215,12 @@ classdef MBsys < handle
             end
         end
         
+        %% evalPhi_q
         function Phi_q = evalPhi_q(obj, t, q)
+            %EVALPHI_Q - evaluate the system constraint Jacobian.
+            %  JAC = sys.EVALPHI_Q(T, Q) returns the constraint Jacobian
+            %  matrix evaluated at time T and generlaized coordinates Q.
+            
             Phi_q = zeros(obj.m, obj.n);
             
             for iC = 1:obj.nC
@@ -185,7 +240,12 @@ classdef MBsys < handle
             end
         end
         
+        %% evalNu
         function Nu = evalNu(obj, t, q)
+            %EVALNU - evaluate the RHS of the velocity equaiton.
+            %  NU = sys.EVALNU(T, Q) returns the velocity equation RHS
+            %  vector evaluated at time T and generlaized coordinates Q.
+            
             Nu = zeros(obj.m, 1);
             
             for iC = 1:obj.nC
@@ -203,7 +263,13 @@ classdef MBsys < handle
             end
         end
         
+        %% evalGamma
         function Gamma = evalGamma(obj, t, q, qd)
+            %EVALGAMMA - evaluate the RHS of the acceleration equation.
+            %  GAMMA = sys.EVALGAMMA(T, Q, QD) returns the RHS vector of
+            %  the acceleration equation evaluated at time T, generlaized
+            %  coordinates Q, and generalized velocities QD.
+            
             Gamma = zeros(obj.m, 1);
             
             for iC = 1:obj.nC
@@ -221,8 +287,12 @@ classdef MBsys < handle
             end
         end
         
+        %% print
         function print(obj)
-            % Print information about the model
+            % PRINT - display information about the model.
+            %   sys.PRINT() displays model data as read from the ADM file
+            %   specified at construction.
+            
             fprintf('\nModel name: %s\n', obj.name);
             fprintf('Gravity: (%g  %g)\n', obj.g);
             
@@ -245,10 +315,16 @@ classdef MBsys < handle
             fprintf('Number of constraint equations: %i\n', obj.m);
         end
         
+        %% plotBody
         function plotBody(obj, data, bodyId)
-            % Plot time evolution for the generalized coordinates and their
-            % derivatives for the specified body, using the provided time
-            % history for generalized coordinates and derivatives.
+            % PLOTBODY - body position, velocity, and acceleration.
+            %   sys.PLOTBODY(DATA, BODYID) plots the time evolution of
+            %   the generalized position, velocity, and acceleration of the
+            %   body BODYID. The kinematics or dynamic analysis results
+            %   are provided through the structure DATA (as returned by the
+            %   KINEMATICS or DYNAMICS functions. See KINEMATICS and
+            %   DYNAMICS for details.
+            
             figName = sprintf('[%s]  Body #%i', obj.name, bodyId);
             hf = figure;
             set(hf, 'position', [500, 100, 560, 640]);
@@ -277,10 +353,15 @@ classdef MBsys < handle
             
         end
         
+        %% plotPoint
         function plotPoint(obj, data, bodyId, P)
-            % Plot time evolution for the specified point on the specified
-            % body, using the provided history for generalized coordinates
-            % and derivatives.
+            % PLOTPOINT - position, velocity, and acceleration of a point.
+            %   sys.PLOTPOINT(DATA, BODYID, P) plots the time evolution of
+            %   the position, velocity, and acceleration of the point P on
+            %   the body BODYID. The kinematics or dynamic analysis
+            %   results are provided through the structure DATA (as
+            %   returned by the KINEMATICS or DYNAMICS functions. See
+            %   KINEMATICS and DYNAMICS for details.
             
             body = obj.bodies(bodyId);
             range = (body.start:body.start+2);
@@ -342,8 +423,16 @@ classdef MBsys < handle
             
         end
         
+        %% plotReaction
         function [F,T] = plotReaction(obj, data, cnstrId, bodyId, P)
-            % Sanity check
+            % PLOTREACTION plots the time evolution of reaction forces
+            %   [F,T] = sys.PLOTREACTION(DATA, CNSTRID, BODYID, P) plots
+            %   the time evolution of the reaction force and reaction
+            %   torque due to the constraint CNSTRID, as applied to
+            %   the body BODYID at the point P. The dynamic analysis
+            %   results are provided through the structure DATA (as
+            %   returned by the DYNAMICS function. See DYNAMICS for
+            %   details.
             cnstr = obj.constraints(cnstrId);
             
             if cnstr.bodyI == bodyId
@@ -408,8 +497,12 @@ classdef MBsys < handle
             legend('T^R')
         end
         
+        %% plotEnergy
         function [KE, PE] = plotEnergy(obj, data)
-            % Preallocate space
+            % PLOTENERGY - plot time evolution of system energy
+            %   [KE, PE] = sys.PLOTENERGY(DATA) plots the time history of
+            %   the kinetic, potential, and total energy of the system.
+            
             nt = length(data.t);
             KE = zeros(1,nt);
             PE = zeros(1,nt);

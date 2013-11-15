@@ -1,6 +1,29 @@
 function data = kinematics(sys, tstart, tend, dt, nOut, tol, maxIt)
-%KINEMATICS - ...
-%     data = kinematics(sys, tstart, tend, dt, nOut)
+%KINEMATICS - perform kinematic analysis for the specified mechanism
+%     data = KINEMATICS(SYS, TSTART, TEND, DT, NOUT) performs kinematic
+%     analysis for the mechanism represented by SYS over the time interval
+%     [TSTART, TEND], using a step-size DT and storing results at NOUT
+%     equally-spaced time points.
+%     data = KINEMATICS(SYS, TSTART, TEND, DT, NOUT, TOL, MAXIT) also
+%     specifies the tolerance and maximum number of iterations for the
+%     Newton method used for position analysis. Default values are
+%     TOL = 1e-6 and MAXIT = 100.
+%
+%     SYS is an object of type MBsys, constructed from an ADM file. See
+%     MBsys for details.
+%
+%     The simulation results are returned in the structure DATA which has
+%     the following fields:
+%        t   - output time points: a (1 x NT) row vector
+%        q   - body generalized coordinates: a (3*NB x NT) matrix
+%        qd  - body generalized velocities: a (3*NB x NT) matrix
+%        qdd - body generalized accelerations: a (3*NB x NT) matrix
+%     where NB is the number of bodies in the system and M is the number of
+%     constraint equations.
+%     The DATA structure can be passed to the varioius reporting methods of
+%     the SYS object to display results.
+%
+%     See also MBSYS, DYNAMICS
 
 % Use default tolerance and maximum number of iterations if not specified.
 if nargin < 6 || isempty(tol)
@@ -26,7 +49,7 @@ data.stats = zeros(1,nOut+1);
 
 % Initialize time, set initial guess at start time, and evaluate Jacobian.
 t = tstart;
-[q,~] = sys.setIC;
+[q,~] = sys.getIC;
 jac = sys.evalPhi_q(t, q);
 nextOut = 1;
 
