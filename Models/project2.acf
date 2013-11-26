@@ -1,0 +1,6 @@
+{
+"simulation": "Dynamics",
+"tend": 1.0,
+"stepSize": 0.001,
+"outputSteps": 500
+}

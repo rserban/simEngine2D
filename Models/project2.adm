@@ -1,0 +1,159 @@
+{
+    "name": "SliderCrank",
+    "gravity": [9.81, 0],
+     "vis":
+    {
+        "bgRGB": [0.6, 0.7, 0.8],
+        "xlim": [-6, 12],
+        "ylim": [-5, 5]
+    },
+   
+    "bodies": 
+    [
+        {
+            "name": "crank",
+            "id": 1,
+            "mass": 200,
+            "jbar": 450,
+            "q0": [0, 0, 3.141592653589793],
+            "qd0": [0, 0, 30],
+            "vis":
+            {
+                "RGB": [0.8, 0.3, 0.4],
+                "shapes":
+                [
+                    {
+                        "loc": [1, 0],
+                        "size": [2.4, 0.4]
+                    }
+                ],
+                "points":
+                [
+                    [2, 0]
+                ]
+            }
+        },
+        {
+            "name": "rod",
+            "id": 2,
+            "mass": 35,
+            "jbar": 35,
+            "q0": [-0.25, 0, 0],
+            "qd0": [0, -30, 17.142857142857142],
+            "vis":
+            {
+                "RGB": [0.2, 0.2, 0.9],
+                "shapes":
+                [
+                    {
+                        "loc": [0, 0],
+                        "size": [4.1, 0.3]
+                    }
+                ],
+                "points":
+                [
+                    [0, 0]
+                ]
+            }
+        },
+        {
+            "name": "slider",
+            "id": 3,
+            "mass": 25,
+            "jbar": 0.02,
+            "q0": [1.5, 0, 0],
+            "qd0": [0, 0, 0],
+            "vis":
+            {
+                "RGB": [0.2, 0.6, 0.4],
+                "shapes":
+                [
+                    {
+                        "loc": [0, 0],
+                        "size": [0.6, 0.6]
+                    }
+                ],
+                "points":
+                [
+                    [0, 0]
+                ]
+            }            
+        }
+    ],
+
+    "constraints":
+    [
+        {
+            "name": "absX_crank",
+            "id": 1,
+            "type": "AbsoluteX",
+            "body1": 1,
+            "sP1": [0, 0],
+            "fun": "0"
+        },
+        {
+            "name": "absY_crank",
+            "id": 2,
+            "type": "AbsoluteY",
+            "body1": 1,
+            "sP1": [0, 0],
+            "fun": "0"
+        },
+        {
+            "name": "rev_crank_rod",
+            "id": 3,
+            "type": "RevoluteJoint",
+            "body1": 1,
+            "sP1": [2, 0],
+            "body2": 2,
+            "sP2": [-1.75, 0],
+            "fun": "NONE"
+        },
+        {
+            "name": "rev_rod_slider",
+            "id": 4,
+            "type": "RevoluteJoint",
+            "body1": 2,
+            "sP1": [1.75, 0],
+            "body2": 3,
+            "sP2": [0, 0],
+            "fun": "NONE"
+        },
+        {
+            "name": "absY_slider",
+            "id": 5,
+            "type": "AbsoluteY",
+            "body1": 3,
+            "sP1": [0, 0],
+            "fun": "0"
+        },
+        {
+            "name": "absAngle_slider",
+            "id": 6,
+            "type": "AbsoluteAngle",
+            "body1": 3,
+            "fun": "0"
+        }
+    ],
+
+  "forces":
+    [
+        {
+            "name": "force",
+            "id": 1,
+            "type": "PointForceFile",
+            "body1": 3,
+            "sP1": [0, 0],
+            "frame": "GRF",
+            "mfile": "pistonForce"       
+        },
+        {
+            "name": "torque",
+            "id": 2,
+            "type": "Torque",
+            "body1": 1,
+            "fun": "41450"
+        }
+    ]
+
+}
