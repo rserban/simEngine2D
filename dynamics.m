@@ -126,7 +126,9 @@ while true
         
         R = [M*qdd + Phi_q' * lam - Q;
             inv_beta * Phi];
-        J = [M , Phi_q' ; Phi_q , zeros(sys.m)];
+        if iter==1
+            J = [M , Phi_q' ; Phi_q , zeros(sys.m)];
+        end
         
         % Solve for corrections and update solution.
         del = J\R;
@@ -140,7 +142,8 @@ while true
     end
     
     
-    %fprintf('t = %g  h = %g  iter = %i  nrm  %g\n', t, h, iter, norm(del,inf));
+%     fprintf('t = %g  h = %g  iter = %i  nrm  %g    %g    cond(J) = %g\n', ...
+%         t, h, iter, norm(del,inf), norm(del(1:sys.n), inf), cond(J));
     
     
     
