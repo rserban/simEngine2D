@@ -1,0 +1,98 @@
+{
+    "name": "FinalExam",
+    "gravity": [0, -9.81],
+     "vis":
+    {
+        "bgRGB": [0.6, 0.7, 0.8],
+        "xlim": [-6, 12],
+        "ylim": [-5, 5]
+    },
+   
+    "bodies": 
+    [
+         {
+            "name": "slider",
+            "id": 1,
+            "mass": 1,
+            "jbar": 1,
+            "q0": [0, 0, 0],
+            "qd0": [4, 0, 0],
+            "vis":
+            {
+                "RGB": [0.2, 0.6, 0.4],
+                "shapes":
+                [
+                    {
+                        "loc": [0, 0],
+                        "size": [0.6, 0.6]
+                    }
+                ],
+                "points":
+                [
+                    [0, 0]
+                ]
+            }            
+        },   
+        {
+            "name": "bar",
+            "id": 2,
+            "mass": 1,
+            "jbar": 2,
+            "q0": [2, 0, 0],
+            "qd0": [4, 0, 0],
+            "vis":
+            {
+                "RGB": [0.8, 0.3, 0.4],
+                "shapes":
+                [
+                    {
+                        "loc": [0, 0],
+                        "size": [4.4, 0.4]
+                    }
+                ],
+                "points":
+                [
+                    [0, 0],
+                    [2, 0]
+                ]
+            }
+        }
+    ],
+
+    "constraints":
+    [
+        {
+            "name": "absY_slider",
+            "id": 1,
+            "type": "AbsoluteY",
+            "body1": 1,
+            "sP1": [0, 0],
+            "fun": "0"
+        },
+        {
+            "name": "absAngle_slider",
+            "id": 2,
+            "type": "AbsoluteAngle",
+            "body1": 1,
+            "fun": "0"
+        },
+        {
+            "name": "absX_driver_slider",
+            "id": 3,
+            "type": "AbsoluteX",
+            "body1": 1,
+            "sP1": [0, 0],
+            "fun": "sin(4*t)"
+        },
+        {
+            "name": "rev_slider_bar",
+            "id": 4,
+            "type": "RevoluteJoint",
+            "body1": 1,
+            "sP1": [0, 0],
+            "body2": 2,
+            "sP2": [-2, 0],
+            "fun": "NONE"
+        }
+    ]
+}
