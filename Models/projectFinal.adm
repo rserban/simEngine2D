@@ -1,0 +1,157 @@
+{
+    "name": "WebCutter",
+    "gravity": [9.81, 0],
+     "vis":
+    {
+        "bgRGB": [0.6, 0.7, 0.8],
+        "xlim": [-0.2, 0.4],
+        "ylim": [-0.1, 0.4]
+    },
+   
+    "bodies": 
+    [
+        {
+            "name": "crank",
+            "id": 1,
+            "mass": 0.1,
+            "jbar": 1.5e-5,
+            "q0": [0.02, 0, 0],
+            "qd0": [0, 0, 0],
+            "vis":
+            {
+                "RGB": [0.8, 0.3, 0.4],
+                "shapes":
+                [
+                    {
+                        "loc": [0, 0],
+                        "size": [0.04, 0.008]
+                    }
+                ],
+                "points":
+                [
+                    [0.02, 0]
+                ]
+            }
+        },
+        {
+            "name": "knife_arm",
+            "id": 2,
+            "mass": 1,
+            "jbar": 0.03,
+            "q0": [0.04, 0.28, 1.5707963268],
+            "qd0": [0, 0, 0],
+            "vis":
+            {
+                "RGB": [0.2, 0.2, 0.9],
+                "shapes":
+                [
+                    {
+                        "loc": [-0.12, 0],
+                        "size": [0.32, 0.008]
+                    },
+                    {
+                        "loc": [0.04, -0.12],
+                        "size": [0.008, 0.24]
+                    }                    
+                ],
+                "points":
+                [
+                    [0, 0],
+                    [0.04, -0.24]
+                ]
+            }
+        },
+        {
+            "name": "rocker_arm",
+            "id": 3,
+            "mass": 2,
+            "jbar": 0.04,
+            "q0": [0.15, 0.16, 5.236],
+            "qd0": [0, 0, 0],
+            "vis":
+            {
+                "RGB": [0.2, 0.6, 0.4],
+                "shapes":
+                [
+                    {
+                        "loc": [0.06, -0.07],
+                        "size": [0.4, 0.008]
+                    },
+                    {
+                        "loc": [0, 0.03],
+                        "size": [0.008, 0.2]
+                    }
+                ],
+                "points":
+                [
+                    [0, 0],
+                    [0.0, 0.13]
+                ]
+            }            
+        }
+    ],
+
+    "constraints":
+    [
+        {
+            "name": "absX_crank",
+            "id": 1,
+            "type": "AbsoluteX",
+            "body1": 1,
+            "sP1": [-0.02, 0],
+            "fun": "0"
+        },
+        {
+            "name": "absY_crank",
+            "id": 2,
+            "type": "AbsoluteY",
+            "body1": 1,
+            "sP1": [-0.02, 0],
+            "fun": "0"
+        },
+        {
+            "name": "rev_crank_knife",
+            "id": 3,
+            "type": "RevoluteJoint",
+            "body1": 1,
+            "sP1": [0.02, 0],
+            "body2": 2,
+            "sP2": [-0.28, 0],
+            "fun": "NONE"
+        },
+        {
+            "name": "rev_knife_rocker",
+            "id": 4,
+            "type": "RevoluteJoint",
+            "body1": 2,
+            "sP1": [0, 0],
+            "body2": 3,
+            "sP2": [-0.14, -0.07],
+            "fun": "NONE"
+        },
+        {
+            "name": "absX_rocker",
+            "id": 5,
+            "type": "AbsoluteX",
+            "body1": 3,
+            "sP1": [0.26, -0.07],
+            "fun": "0.26"
+        },
+        {
+            "name": "absY_rocker",
+            "id": 6,
+            "type": "AbsoluteY",
+            "body1": 3,
+            "sP1": [0.26, -0.07],
+            "fun": "-0.04"
+        },
+        {
+            "name": "absAngle_crank",
+            "id": 7,
+            "type": "AbsoluteAngle",
+            "body1": 1,
+            "fun": "2*pi*t"
+        }
+    ]
+
+}
