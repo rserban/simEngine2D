@@ -162,7 +162,7 @@ end
 
 for iCG = 1:nCG
     cg(iCG).h = plot(0, 0, 'ko');
-    cg(iCG).ha = quiver([0;0], [0;0], [1;0], [0;1]);
+    cg(iCG).ha = quiver([0;0], [0;0], [0.2*dd;0], [0;0.2*dd]);
     set(cg(iCG).ha, 'Color', [0.3 0.3 0.3]);
 end
 
@@ -186,6 +186,7 @@ info.shapes = shapes;
 info.points = points;
 info.cg = cg;
 info.ht = ht;
+info.dd = dd;
 
 iT = 0;
 traj = false;
@@ -215,6 +216,7 @@ cg = info.cg;
 ht = info.ht;
 t = info.t;
 q = info.q;
+dd = info.dd;
 
 % Move to next frame.
 iT = iT + 1;
@@ -240,8 +242,8 @@ end
 for iCG = 1:length(cg)
     x = q(iT,1,cg(iCG).b);
     y = q(iT,2,cg(iCG).b);
-    c = cos(q(iT,3,cg(iCG).b));
-    s = sin(q(iT,3,cg(iCG).b));
+    c = 0.2*dd*cos(q(iT,3,cg(iCG).b));
+    s = 0.2*dd*sin(q(iT,3,cg(iCG).b));
     set(cg(iCG).h, 'Xdata', x, 'Ydata', y);
     set(cg(iCG).ha, 'Xdata', [x;x], 'Ydata', [y;y], 'Udata', [c;-s], 'Vdata', [s;c]);
 end
