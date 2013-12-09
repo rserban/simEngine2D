@@ -98,6 +98,8 @@ classdef MBsys < handle
                     obj.constraints(iC) = MBabsAngle(clist{iC});
                 elseif strcmp(clist{iC}.type, 'RevoluteJoint')
                     obj.constraints(iC) = MBrevJoint(clist{iC});
+                elseif strcmp(clist{iC}.type, 'RackPinion')
+                    obj.constraints(iC) = MBrackPinion(clist{iC});
                 end
                 obj.constraints(iC).start = obj.m+1;
                 obj.m = obj.m + obj.constraints(iC).neq;
@@ -269,7 +271,7 @@ classdef MBsys < handle
         function Gamma = evalGamma(obj, t, q, qd)
             %EVALGAMMA - evaluate the RHS of the acceleration equation.
             %  GAMMA = sys.EVALGAMMA(T, Q, QD) returns the RHS vector of
-            %  the acceleration equation evaluated at time T, generlaized
+            %  the acceleration equation evaluated at time T, generalized
             %  coordinates Q, and generalized velocities QD.
             
             Gamma = zeros(obj.m, 1);

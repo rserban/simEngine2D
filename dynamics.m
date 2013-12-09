@@ -141,10 +141,10 @@ while true
         end
     end
     
-    
-%     fprintf('t = %g  h = %g  iter = %i  nrm  %g    %g    cond(J) = %g\n', ...
-%         t, h, iter, norm(del,inf), norm(del(1:sys.n), inf), cond(J));
-    
+    if iter > 10
+    fprintf('t = %g  h = %g  iter = %i  nrm  %g    %g    cond(J) = %g\n', ...
+        t, h, iter, norm(del,inf), norm(del(1:sys.n), inf), cond(J));
+    end
     
     
     % If this is an output time, store data.
