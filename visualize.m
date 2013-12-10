@@ -68,17 +68,21 @@ axis equal
 xlim(xl);
 ylim(yl);
 % Set background color (if specified)
+bgColor = [0.9,0.9,0.9];
 if isfield(model.vis, 'bgRGB')
-    whitebg(hf, model.vis.bgRGB);
+    bgColor = model.vis.bgRGB;
 end
+whitebg(hf, bgColor);
+set(hf,'Color',bgColor);
 % Hide tick marks and labels
 set(gca, 'Xtick', [])
 set(gca, 'Ytick', [])
-% Create the text object for displaying current time
-ht = text(xl(1)+dd/20, yl(2)-dd/20, '');
-set(ht, 'HorizontalAlignment', 'left', 'VerticalAlignment', 'top');
 
-% Create GUI buttons
+% Create the text object for displaying current time
+htexttime = text(xl(1)+dd/20, yl(2)-dd/20, '');
+set(htexttime, 'HorizontalAlignment', 'left', 'VerticalAlignment', 'top');
+
+% Create GUI elements
 uicontrol('style', 'PushButton', 'String', 'Quit',...
     'position', [20 20 70 20],...
     'callback', @OnQuit);
@@ -91,6 +95,13 @@ uicontrol('style', 'PushButton', 'String', 'Trace On',...
 uicontrol('style', 'PushButton', 'String', 'LRF Off',...
     'position', [20 110 70 20],...
     'callback', @OnLRF);
+hslider = uicontrol('style', 'slider', ...
+    'Min',0,'Max',1,'Value',0,...
+    'Position', [200 20 300 16],...
+    'Callback', @OnSlider); 
+htextvalue = uicontrol('style', 'text', ...
+    'Position', [200, 40 300 20], 'BackgroundColor', bgColor, 'String', '');
+
 
 % Collect information on all visual objects defined in the model
 %----------------------------------------------------------------
@@ -173,6 +184,14 @@ nT = length(t);
 dt = t(2)-t(1);
 q = reshape(data(:,2:end), nT, 3, nB);
 
+% Initial value for the timer period (note: precision = 1 milisecond)
+dt = dt - mod(dt, 1e-3);
+dt = max(1e-3, dt);
+
+% Set min/max/value for the period slider
+set(hslider, 'Min', 1e-3, 'Max', 1, 'Value', dt);
+set(htextvalue,'String', sprintf('Refresh: %.3f s', dt));
+
 % Use global variables to make data accessible within callbacks.
 global TimerData;
 global info;
@@ -185,8 +204,10 @@ info.q = q;
 info.shapes = shapes;
 info.points = points;
 info.cg = cg;
-info.ht = ht;
 info.dd = dd;
+info.htexttime = htexttime;
+info.hslider = hslider;
+info.htextvalue = htextvalue;
 
 iT = 0;
 traj = false;
@@ -213,13 +234,17 @@ global iT;
 shapes = info.shapes;
 points = info.points;
 cg = info.cg;
-ht = info.ht;
+htexttime = info.htexttime;
 t = info.t;
 q = info.q;
 dd = info.dd;
 
 % Move to next frame.
 iT = iT + 1;
+
+if iT > length(q)
+    return
+end
 
 % Update position of all shapes.
 for iS = 1:length(shapes)
@@ -249,7 +274,7 @@ for iCG = 1:length(cg)
 end
 
 % Update the time in the text object
-set(ht, 'String', sprintf('%4.2f', t(iT)));
+set(htexttime, 'String', sprintf('%4.2f', t(iT)));
 
 % Refresh the figure
 drawnow
@@ -326,5 +351,23 @@ for iP = 1:length(points)
 end
 start(TimerData);
 
+function [] = OnSlider(obj, event)
+% This callback is invoked when the slider value changes.
+global TimerData;
+global info;
 
+% Read the slider value and adjust to 1 milisecond resolution
+dt = get(info.hslider,'Value');
+dt = dt - mod(dt,.001);
 
+% Set slider readout to show its value
+set(info.htextvalue,'String', sprintf('Refresh: %.3f s', dt));
+
+% If timer is on, stop it, reset the period, and start it again.
+if strcmp(get(TimerData, 'Running'), 'on')
+    stop(TimerData);
+    set(TimerData,'Period',dt)
+    start(TimerData)
+else               % If timer is stopped, reset its period only.
+    set(TimerData,'Period',dt)
+end
