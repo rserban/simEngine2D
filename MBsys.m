@@ -98,6 +98,8 @@ classdef MBsys < handle
                     obj.constraints(iC) = MBabsAngle(clist{iC});
                 elseif strcmp(clist{iC}.type, 'RevoluteJoint')
                     obj.constraints(iC) = MBrevJoint(clist{iC});
+                elseif strcmp(clist{iC}.type, 'TranslationalJoint')
+                    obj.constraints(iC) = MBtransJoint(clist{iC});
                 elseif strcmp(clist{iC}.type, 'RackPinion')
                     obj.constraints(iC) = MBrackPinion(clist{iC});
                 end
