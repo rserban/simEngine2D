@@ -1,0 +1,264 @@
+{
+    "name": "shurikenCatapult",
+    "gravity": [0, 0],
+    "vis":
+    {
+	"bgRGB": [187/255, 98/255, 0],
+	"xlim": [-650, 650],
+	"ylim": [-650, 650]
+    },
+    "bodies": [
+	{
+            "name": "Crank",
+            "id": 1,
+            "mass": 5,
+            "jbar": 900,
+            "q0": [97, -46.225, -0.444],
+            "qd0": [0, 0, 0],
+	    "vis":
+	    {
+		"RGB": [0.8, 0.4, 1.0],
+		"shapes":
+		[
+		    {
+			"loc": [0, 0],
+			"size": [215, 40]
+		    }
+		],
+		"points":
+		[
+		    [0, 0]
+		]
+
+	    }
+        },
+	{
+            "name": "Collar",
+            "id": 2,
+            "mass": 5,
+            "jbar": 900,
+            "q0": [194, -92.5, 1.126],
+            "qd0": [0, 0, 0],
+	    "vis":
+	    {
+		"RGB": [0.8, 0.4, 1.0],
+		"shapes":
+		[
+		    {
+			"loc": [0, 0],
+			"size": [125, 100]
+		    }
+		],
+		"points":
+		[
+		    [0, 0]
+		]
+	    }
+        },
+	{
+            "name": "Long Rod",
+            "id": 3,
+            "mass": 5,
+            "jbar": 900,
+            "q0": [178, -126.2, 1.126],
+            "qd0": [0, 0, 0],
+	    "vis":
+	    {
+		"RGB": [0.8, 0.4, 1.0],
+		"shapes":
+		[
+		    {
+			"loc": [0, 0],
+			"size": [828, 75]
+		    }
+		],
+		"points":
+		[
+		    [0, 0]
+		]
+	    }
+        },
+	{
+            "name": "Short Rod",
+            "id": 4,
+            "mass": 5,
+            "jbar": 900,
+            "q0": [106.6, 373.7, -0.469],
+            "qd0": [0, 0, 0],
+	    "vis":
+	    {
+		"RGB": [0.8, 0.4, 1.0],
+		"shapes":
+		[
+		    {
+			"loc": [0, 0],
+			"size": [560, 80]
+		    }
+		],
+		"points":
+		[
+		    [0, 0]
+		]
+	    }
+        },
+	{
+            "name": "Cutter",
+            "id": 5,
+            "mass": 5,
+            "jbar": 900,
+            "q0": [-143, 500, 0],
+            "qd0": [0, 0, 0],
+	    "vis":
+	    {
+		"RGB": [0.8, 0.4, 1.0],
+		"shapes":
+		[
+		    {
+			"loc": [0, 0],
+			"size": [125, 75]
+		    }
+		],
+		"points":
+		[
+		    [0, 0]
+		]
+	    }
+        }
+    ],
+    "constraints": [
+        {
+            "name": "Crank X",
+            "id": 1,
+            "type": "AbsoluteX",
+            "body1": 1,
+            "sP1": [-107.5, 0],
+            "fun": "0"
+        },
+        {
+            "name": "Crank Y",
+            "id": 2,
+            "type": "AbsoluteY",
+            "body1": 1,
+            "sP1": [-107.5, 0],
+            "fun": "0"
+        },
+	{
+	    "name": "Revolute Crank-Collar",
+	    "id": 3,
+	    "type": "RevoluteJoint",
+	    "body1": 1,
+	    "sP1": [107.5, 0],
+	    "body2": 2,
+	    "sP2": [0, 0],
+	    "fun": "NONE"
+	},
+	{
+	    "name": "Translational Collar-Long Rod",
+	    "id": 4,
+	    "type": "TranslationalJoint",
+	    "body1": 2,
+	    "sP1": [3, 0],
+	    "vP1": [2, 0],
+	    "body2": 3,
+	    "sP2": [2, 0],
+	    "vP2": [1, 0],
+	    "fun": "NONE"
+	},
+	{
+	    "name": "Revolute Long Rod-Short Rod",
+	    "id": 5,
+	    "type": "RevoluteJoint",
+	    "body1": 3,
+	    "sP1": [414, 0],
+	    "body2": 4,
+	    "sP2": [279.5, 0],
+	    "fun": "NONE"
+	},
+	{
+	    "name": "Revolute Short Rod-cutter",
+	    "id": 6,
+	    "type": "RevoluteJoint",
+	    "body1": 4,
+	    "sP1": [-279.5, 0],
+	    "body2": 5,
+	    "sP2": [0, 0],
+	    "fun": "NONE"
+	},
+        {
+            "name": "Cutter Y",
+            "id": 7,
+            "type": "AbsoluteY",
+            "body1": 5,
+            "sP1": [0, 0],
+            "fun": "500"
+        },
+	{
+       	    "name": "Crank Angle",
+            "id": 8,
+            "type": "AbsoluteAngle",
+            "body1": 1,
+            "fun": "15*t"
+	},
+        {
+            "name": "Long Rod X",
+            "id": 9,
+            "type": "AbsoluteX",
+            "body1": 3,
+            "sP1": [-414, 0],
+            "fun": "0"
+        },
+        {
+            "name": "Long Rod Y",
+            "id": 10,
+            "type": "AbsoluteY",
+            "body1": 3,
+            "sP1": [-414, 0],
+            "fun": "-500"
+        },
+	{
+       	    "name": "Cutter Angle",
+            "id": 11,
+            "type": "AbsoluteAngle",
+            "body1": 5,
+            "fun": "0"
+	}
+    ],
+    "forces":
+    [
+	{
+	}
+    ],
+    "contacts":
+    [
+	{
+    	    "name":"ball1",	
+	    "body": 1,
+	    "sP1": [0, 0],
+	    "kn": 10,
+	    "cn": 1,
+	    "kt": 1000,
+	    "ct": 100,
+	    "r": 1.001
+	},
+	{
+    	    "name":"ball2",	
+	    "body": 2,
+	    "sP1": [0, 0],
+	    "kn": 10,
+	    "cn": 1,
+	    "kt": 1000,
+	    "ct": 100,
+	    "r": 1.001
+	},
+	{
+    	    "name":"ball3",	
+	    "body": 3,
+	    "sP1": [0, 0],
+	    "kn": 10,
+	    "cn": 1,
+	    "kt": 1000,
+	    "ct": 100,
+	    "r": 1
+	}
+    ]
+}
